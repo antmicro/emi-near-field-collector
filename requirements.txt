@@ -1,0 +1,7 @@
+numpy
+matplotlib
+pandas
+pyserial
+python-vxi11
+vector
+scipy
