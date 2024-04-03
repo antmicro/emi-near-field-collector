@@ -125,7 +125,7 @@ def main():
             "--camera",
             nargs="+",
             help="Choose a list of camera names available in board blend. Default is Camera",
-            default="Camera",
+            default=["Camera"],
         )
         parser.add_argument(
             "-rp",

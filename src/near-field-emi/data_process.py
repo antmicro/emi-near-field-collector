@@ -262,7 +262,7 @@ def main():
     else:
         print(f"Path doesn't exist {args.PATH}")
         sys.exit()
-
+    # print(args)
     if not os.path.exists(os.path.join(args.heatmap_path, "grey")):
         os.makedirs(os.makedirs(os.path.join(args.heatmap_path, "grey")))
     elif not os.path.exists(os.path.join(args.heatmap_path, "color")):
