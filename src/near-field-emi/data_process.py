@@ -39,6 +39,7 @@ def define_unit(number: float):
 
 def define_ranges(range_list: list, step: float):
     start, end = range_list
+    end1 = end
     if start % step != 0:
         end1 = math.ceil(start / step) * step * 2
     ranges = [(start, end1)]
