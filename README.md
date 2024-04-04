@@ -8,7 +8,7 @@ This project's goal is to extend hardware troubleshooting capabilities by automa
 
 To generate 3D visualization, you need to have **Blender** installed. For installation instructions, go [here](https://docs.blender.org/manual/en/latest/getting_started/installing/index.html). Flow was tested on Blender 3.2 and Ubuntu/Debian. 
 
-All scripts are written in Python. To create a venv environment with Python packages used in all of them: 
+All scripts are written in Python. After cloning the repo, create a venv environment with Python packages used in all of them: 
 
 * install virtualenv package 
     
@@ -143,7 +143,7 @@ There are optional flags:
 Example call: 
 
 ```bash
-blender ~/emi-near-field-collector/DUT.blend -b -P src/near-field-emi/render_emimap.py -- ~/emi-near-field-collector/heatmaps --render_path ~/emi-near-field-collector/renders --camera Camera_view1
+blender ~/emi-near-field-collector/DUT.blend -b -P src/near-field-emi/render_emimap.py -- ~/emi-near-field-collector/heatmaps --render_path ~/emi-near-field-collector/renders --camera Camera
 ```
 
 ### Samples 
