@@ -129,22 +129,14 @@ def measurement_interpolation(freq_intervals: list):
         vals = table.values
         new_size_x = len(x) * 120
         new_size_y = len(y) * 120
-        # print(x, y)
-        print(x.shape, y.shape, vals.shape)
-        print(x.size)
-        print(vals[0].shape)
-        # interp_func = RectBivariateSpline(x, y, vals.transpose(), kx=3, ky=3)
         interp_func = RectBivariateSpline(x, y, vals, kx=3, ky=3)
         new_x = np.linspace(x[0], x[-1], new_size_x)
         new_y = np.linspace(y[0], y[-1], new_size_y)
-        print(new_x.shape, new_y.shape)
         interpolated_vals = interp_func(new_x, new_y)
         Y, X = np.meshgrid(new_y, new_x)
         Xs.append(X)
         Ys.append(Y)
         Zs.append(interpolated_vals)
-        print(X.shape, Y.shape, interpolated_vals.shape)
-        # print(interpolated_vals)
     return Xs, Ys, Zs, color_max, color_min
 
 
@@ -152,19 +144,30 @@ def show_interval_plots(Xs, Ys, Zs, color_max, color_min, titles, path):
     i = 0
     subs_size = len(titles)
     plt_rows = math.ceil(subs_size / 5)
-    fig, axs = plt.subplots(plt_rows, 5, figsize=(20, 16))
+    fig, axs = plt.subplots(plt_rows, 5, figsize=(20, plt_rows * 4))
     for i in range(0, len(Xs)):
         row = i // 5
         col = i % 5
-        pmesh = axs[row, col].pcolormesh(
-            Xs[i], Ys[i], Zs[i], vmax=color_max, vmin=color_min, shading="nearest"
-        )
-        axs[row, col].set_title(titles[i])
-        axs[row, col].xaxis.tick_bottom()
-        axs[row, col].xaxis.set_label_position("bottom")
-        axs[row, col].set_aspect("equal")
-        plt.gca().spines["bottom"].set_visible(False)
-        fig.colorbar(pmesh, ax=axs[row, col])
+        if subs_size > 5:
+            pmesh = axs[row, col].pcolormesh(
+                Xs[i], Ys[i], Zs[i], vmax=color_max, vmin=color_min, shading="nearest"
+            )
+            axs[row, col].set_title(titles[i])
+            axs[row, col].xaxis.tick_bottom()
+            axs[row, col].xaxis.set_label_position("bottom")
+            axs[row, col].set_aspect("equal")
+            plt.gca().spines["bottom"].set_visible(False)
+            fig.colorbar(pmesh, ax=axs[row, col])
+        if subs_size <= 5:
+            pmesh = axs[col].pcolormesh(
+                Xs[i], Ys[i], Zs[i], vmax=color_max, vmin=color_min, shading="nearest"
+            )
+            axs[col].set_title(titles[i])
+            axs[col].xaxis.tick_bottom()
+            axs[col].xaxis.set_label_position("bottom")
+            axs[col].set_aspect("equal")
+            plt.gca().spines["bottom"].set_visible(False)
+            fig.colorbar(pmesh, ax=axs[col])
         fig.savefig(path + "/out.png", bbox_inches="tight", pad_inches=0)
         plt.title(titles[i])
         plt.axis("off")
@@ -263,7 +266,6 @@ def main():
     else:
         print(f"Path doesn't exist {args.PATH}")
         sys.exit()
-    # print(args)
     if not os.path.exists(os.path.join(args.heatmap_path, "grey")):
         os.makedirs(os.makedirs(os.path.join(args.heatmap_path, "grey")))
     elif not os.path.exists(os.path.join(args.heatmap_path, "color")):
